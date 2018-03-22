@@ -81,3 +81,23 @@ public:
         return head;
     }
 };
+
+
+LeetCode 141-Linked List Cycle
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(head == nullptr)
+            return false;
+        ListNode *slow = head;
+        ListNode *fast = head->next;
+        while(fast && fast->next)     //此处的判断条件是重点，不需要判断slow是否为空，因为fast不为空时slow根本不可能为空
+        {                              
+            if(slow == fast)
+                return true;
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return false;
+    }
+};
