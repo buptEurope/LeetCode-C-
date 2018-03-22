@@ -104,7 +104,7 @@ public:
 
 
 
-LeetCode 141-Intersection of Two Linked Lists
+LeetCode 160-Intersection of Two Linked Lists
 常规解
 class Solution {
 public:
@@ -206,5 +206,82 @@ public:
             }
         }
         return dummy.next;
+    }
+};
+
+
+
+LeetCode 206-Reverse Linked List
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        ListNode dummy(INT_MIN);
+        ListNode *pre = &dummy;
+        pre->next = NULL;
+        ListNode *r;
+        while(head)
+        {
+            r = head->next;             //用r先保存head->next,不然进行到下面会丢失
+            head->next = pre->next;     //此句和下句顺序别写反了
+            pre->next = head;
+            head = r;
+        }
+        return dummy.next;
+    }
+};
+
+迭代解，了解一下
+class Solution {
+public:
+	ListNode* reverseList(ListNode* head) {
+		if (head == NULL || head->next == NULL) {
+			return head;
+		}
+		ListNode* root = reverseList(head->next);
+		head->next->next = head;
+		head->next = NULL;    //如果缺少此句，会使得链表成为一个环。
+		return root;
+	}
+};
+
+
+
+LeetCode 206-Reverse Linked List
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if(head == NULL || head->next == NULL)
+            return true;
+        ListNode *fast = head;
+        ListNode *slow = head;
+        while(fast->next && fast->next->next)   
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        slow->next = Reverse(slow->next);   //此句很关键，拿笔画下奇数和偶数的情况；
+        fast = head;
+        slow = slow->next;
+        while(slow)
+        {
+            if(fast->val != slow->val)
+                return false;
+            fast = fast->next;
+            slow = slow->next;
+        }
+        return true;
+    }
+    ListNode *Reverse(ListNode* halfhead)    //逆置链表必须掌握
+    {
+        ListNode *pre = NULL;
+        ListNode *r = NULL;
+        while(halfhead)
+        {
+            r = halfhead->next;
+            halfhead->next = pre;
+            pre = halfhead;
+            halfhead = r;
+        }
+        return pre;
     }
 };
