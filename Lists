@@ -1,0 +1,25 @@
+LeetCode 21-Merge Two Sorted Lists 
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode dummy(INT_MIN);            //创建一个假节点在head节点之前，使得head节点和后面的节点操作相同，不需要单独考虑；
+        ListNode *r = &dummy;               //dummy.next指向的就是从head节点开始的链表；
+        while(l1 && l2)
+        {
+            if(l1->val > l2->val)
+            {
+                r->next = l2;
+                l2 = l2->next;
+            }
+            else
+            {
+                r->next = l1;
+                l1 = l1->next;
+            }
+            r = r->next;
+        }
+        r->next = l1? l1 : l2;
+        return dummy.next;
+    }
+    
+};
