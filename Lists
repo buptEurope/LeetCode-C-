@@ -285,3 +285,22 @@ public:
         return pre;
     }
 };
+
+
+
+LeetCode 237-Delete Node in a Linked List
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        node->val = node->next->val;           //会内存泄露
+        node->next = node->next->next;
+    }
+};
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        ListNode *nextnode = node->next;       
+        *node = *nextnode;
+        delete nextnode;                       //真正意义上的删除
+    }
+};
