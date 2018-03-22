@@ -101,3 +101,83 @@ public:
         return false;
     }
 };
+
+
+
+LeetCode 141-Intersection of Two Linked Lists
+常规解
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        int sizeA = 0;
+        int sizeB = 0;
+        ListNode *p = headA;
+        ListNode *q = headB;         //谨记Y字型
+        while(p)
+        {
+            sizeA++;
+            p = p->next;
+        }
+        while(q)
+        {
+            sizeB++;
+            q = q->next;
+        }       
+        // int diff = std::abs(sizeA - sizeB);
+        // if (sizeB > sizeA) { swap(headA, headB); }
+        // while (diff--) { 
+        //     headA = headA->next;        //这种方式还简单点，下面那种判断有点繁琐
+        // }
+        // while (headA != headB) {
+        //     headA = headA->next;
+        //     headB = headB->next;
+        // }
+        // return headA;           
+        int count = sizeB-sizeA;
+        if(count < 0)
+        {
+            while(count < 0)
+            {
+                count++;
+                headA = headA->next;
+            }
+        }
+        else
+        {
+            while(count > 0)
+            {
+                count--;
+                headB = headB->next;
+            }
+        }
+        while(headA != headB)
+        {
+            headA = headA->next;
+            headB = headB->next;
+        }
+        return headA;
+    }
+};
+
+技巧解  重点是最后的将B赋给l1，将A赋给l2；以及最后返回要返回l1/L2,而不是NULL;
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode *l1 = headA;
+        ListNode *l2 = headB;
+        if(l1 == NULL || l2 == NULL)
+            return NULL;
+        while(l1 && l2 && l1 != l2)
+        {
+            l1 = l1->next;
+            l2 = l2->next;
+            if(l1 == l2)
+                return l1;
+            if(l1 == NULL)
+                l1 = headB;
+            if(l2 == NULL)
+                l2 = headA;
+        }
+        return l1;
+    }
+};
